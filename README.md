@@ -1,4 +1,4 @@
-# authorizationApp
+# youngRating
 
 собираем образ
 docker build -f docker/backend.Dockerfile -t my-backend .
