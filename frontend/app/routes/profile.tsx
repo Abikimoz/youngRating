@@ -22,66 +22,64 @@ export default function Profile() {
     fetchProfile();
   }, [navigate]);
 
+  const renderCard = (title: string, content: React.ReactNode) => (
+    <main className="w-full min-h-screen flex justify-center items-center p-4">
+      <div className="w-full max-w-sm bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-[#116fb7] rounded-3xl shadow-2xl overflow-hidden p-8 space-y-6">
+        <h2 className="text-center text-3xl font-bold text-gray-800">
+          {title}
+        </h2>
+        {content}
+      </div>
+    </main>
+  );
+
   if (error) {
-    return (
-      <main className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-200 via-gray-300 to-gray-400 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900">
-        <div className="shadow-lg rounded-xl px-8 pt-8 pb-10 mb-4 w-full max-w-sm border-2 bg-white dark:bg-gray-800 border-gray-300">
-          <h2 className="mb-7 text-center text-3xl font-extrabold text-red-600 dark:text-red-500 drop-shadow">
-            Ошибка
-          </h2>
-          <div className="mb-5 text-lg text-gray-900 dark:text-gray-100">
-            {error}
-          </div>
-        </div>
-      </main>
-    );
+    return renderCard("Ошибка", (
+      <div className="text-red-600 text-sm text-center font-semibold p-2 bg-red-100 rounded-lg">
+        {error}
+      </div>
+    ));
   }
 
   if (!user) {
-    return (
-      <main className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-200 via-gray-300 to-gray-400 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900">
-        <div className="shadow-lg rounded-xl px-8 pt-8 pb-10 mb-4 w-full max-w-sm border-2 bg-white dark:bg-gray-800 border-gray-300">
-          <h2 className="mb-7 text-center text-3xl font-extrabold text-gray-900 dark:text-white drop-shadow">
-            Загрузка...
-          </h2>
+    return renderCard("Загрузка...", (
+        <div className="text-center text-gray-600">
+            Пожалуйста, подождите...
         </div>
-      </main>
-    );
+    ));
   }
 
-  return (
-    // Основной контейнер страницы
-    <main className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-200 via-gray-300 to-gray-400 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900">
-      {/* Карточка профиля */}
-      <div className="shadow-lg rounded-xl px-8 pt-8 pb-10 mb-4 w-full max-w-sm border-2 bg-white dark:bg-gray-800 border-gray-300">
-        {/* Заголовок */}
-        <h2 className="mb-7 text-center text-3xl font-extrabold text-gray-900 dark:text-white drop-shadow">
-          О профиле
-        </h2>
-        {/* Информация о пользователе */}
-        <div className="mb-5 text-lg text-gray-900 dark:text-gray-100">
-          <div><span className="font-bold">Емейл:</span> {user.email}</div>
-          <div><span className="font-bold">Роль:</span> {user.role}</div>
+  return renderCard("Профиль", (
+    <>
+      <div className="space-y-4 text-gray-700">
+        <div className="flex justify-between">
+          <span className="font-bold">Email:</span>
+          <span>{user.email}</span>
         </div>
+        <div className="flex justify-between">
+          <span className="font-bold">Роль:</span>
+          <span>{user.role}</span>
+        </div>
+      </div>
+      <div className="flex flex-col gap-4 pt-4">
         {user.role === 'ADMIN' && (
           <button
             onClick={() => navigate("/admin")}
-            className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out mb-4"
+            className="w-full bg-[#116fb7] hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline shadow-md transition-transform duration-200 transform hover:scale-105"
           >
             Админ панель
           </button>
         )}
-        {/* Кнопка выхода */}
         <button
           onClick={() => {
             localStorage.removeItem("token");
             navigate("/login");
           }}
-          className="w-full bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+          className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline shadow-md transition-transform duration-200 transform hover:scale-105"
         >
           Выйти
         </button>
       </div>
-    </main>
-  );
+    </>
+  ));
 } 

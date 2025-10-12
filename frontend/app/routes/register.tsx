@@ -47,84 +47,91 @@ export default function Register() {
 
   // JSX-разметка страницы
   return (
-    // Основной контейнер, центрирует форму по вертикали и горизонтали, задаёт фон
-    <main className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-200 via-gray-300 to-gray-400 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900">
-      {/* Форма регистрации */}
+    <main className="w-full min-h-screen flex justify-center items-center p-4">
       <form
-        onSubmit={handleSubmit} // Обработчик отправки формы
-        className={`shadow-lg rounded-xl px-8 pt-8 pb-10 mb-4 w-full max-w-sm border-2 transition-colors duration-200 bg-white dark:bg-gray-800 border-gray-300`}
+        onSubmit={handleSubmit}
+        className="w-full max-w-sm bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-[#116fb7] rounded-3xl shadow-2xl overflow-hidden p-8 space-y-6"
+        noValidate
       >
-        {/* Заголовок формы */}
-        <h2 className="mb-7 text-center text-3xl font-extrabold text-gray-900 dark:text-white drop-shadow">
+        <h2 className="text-center text-3xl font-bold text-gray-800">
           Регистрация
         </h2>
-        {/* Блок для вывода ошибки, если она есть */}
+
         {error && (
-          <div className="mb-5 text-red-600 text-base text-center font-semibold">
+          <div className="text-red-600 text-sm text-center font-semibold p-2 bg-red-100 rounded-lg">
             {error}
           </div>
         )}
-        {/* Поле для ввода email */}
-        <div className="mb-5">
-          <label className="block text-gray-900 dark:text-gray-100 text-base font-bold mb-2" htmlFor="email">
+
+        <div className="space-y-2">
+          <label className="text-sm font-bold text-gray-600" htmlFor="email">
             Email
           </label>
           <input
-            id="email" // id для связи с label
-            type="email" // тип поля — email
-            value={email} // текущее значение из состояния
-            onChange={e => setEmail(e.target.value)} // обновление состояния при изменении
-            className={`appearance-none border rounded w-full py-2 px-3 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline text-base transition-colors duration-200 ${error && !email ? "border-red-500" : "border-gray-400"}`}
-            autoComplete="email" // автозаполнение email
-            placeholder="Введите email" // плейсхолдер
+            id="email"
+            type="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            className={`w-full px-4 py-2 border rounded-lg bg-white/80 focus:outline-none focus:ring-2 focus:ring-[#116fb7] transition-colors duration-200 ${
+              error && !email ? "border-red-500" : "border-gray-300"
+            }`}
+            autoComplete="email"
+            placeholder="user@example.com"
           />
         </div>
-        {/* Поле для ввода пароля */}
-        <div className="mb-5">
-          <label className="block text-gray-900 dark:text-gray-100 text-base font-bold mb-2" htmlFor="password">
+
+        <div className="space-y-2">
+          <label className="text-sm font-bold text-gray-600" htmlFor="password">
             Пароль
           </label>
           <input
-            id="password" // id для связи с label
-            type="password" // тип поля — пароль
-            value={password} // текущее значение из состояния
-            onChange={e => setPassword(e.target.value)} // обновление состояния при изменении
-            className={`appearance-none border rounded w-full py-2 px-3 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline text-base transition-colors duration-200 ${error && !password ? "border-red-500" : "border-gray-400"}`}
-            autoComplete="new-password" // автозаполнение пароля
-            placeholder="Введите пароль" // плейсхолдер
+            id="password"
+            type="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            className={`w-full px-4 py-2 border rounded-lg bg-white/80 focus:outline-none focus:ring-2 focus:ring-[#116fb7] transition-colors duration-200 ${
+              error && !password ? "border-red-500" : "border-gray-300"
+            }`}
+            autoComplete="new-password"
+            placeholder="••••••••"
           />
         </div>
-        {/* Поле для подтверждения пароля */}
-        <div className="mb-7">
-          <label className="block text-gray-900 dark:text-gray-100 text-base font-bold mb-2" htmlFor="confirmPassword">
+
+        <div className="space-y-2">
+          <label className="text-sm font-bold text-gray-600" htmlFor="confirmPassword">
             Повторите пароль
           </label>
           <input
-            id="confirmPassword" // id для связи с label
-            type="password" // тип поля — пароль
-            value={confirmPassword} // текущее значение из состояния
-            onChange={e => setConfirmPassword(e.target.value)} // обновление состояния при изменении
-            className={`appearance-none border rounded w-full py-2 px-3 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline text-base transition-colors duration-200 ${error && !confirmPassword ? "border-red-500" : "border-gray-400"}`}
-            autoComplete="new-password" // автозаполнение пароля
-            placeholder="Повторите пароль" // плейсхолдер
+            id="confirmPassword"
+            type="password"
+            value={confirmPassword}
+            onChange={e => setConfirmPassword(e.target.value)}
+            className={`w-full px-4 py-2 border rounded-lg bg-white/80 focus:outline-none focus:ring-2 focus:ring-[#116fb7] transition-colors duration-200 ${
+              error && !confirmPassword ? "border-red-500" : "border-gray-300"
+            }`}
+            autoComplete="new-password"
+            placeholder="••••••••"
           />
         </div>
-        {/* Кнопка регистрации */}
-        <button
-          type="submit" // тип — submit, чтобы срабатывал onSubmit у формы
-          disabled={isDisabled} // блокировка, если поля не заполнены или пароли не совпадают
-          className={`bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full text-lg shadow-md transition-colors duration-200 ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-        >
-          Зарегистрироваться
-        </button>
-        {/* Кнопка возврата на страницу входа */}
-        <button
-          type="button" // тип — button, чтобы не отправлять форму
-          className="mt-4 bg-gray-200 hover:bg-gray-400 text-blue-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:shadow-lg w-full text-lg shadow transition-colors transition-shadow duration-200"
-          onClick={() => navigate('/login')} // переход на страницу входа
-        >
-          На страницу входа
-        </button>
+
+        <div className="flex flex-col gap-4 pt-4">
+          <button
+            type="submit"
+            disabled={isDisabled}
+            className={`w-full bg-[#116fb7] text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline shadow-md transition-all duration-200 transform hover:scale-105 ${
+              isDisabled ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-800"
+            }`}
+          >
+            Зарегистрироваться
+          </button>
+          <button
+            type="button"
+            className="w-full bg-transparent hover:bg-blue-100 text-[#116fb7] font-bold py-2 px-4 border border-[#116fb7] rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-200"
+            onClick={() => navigate('/login')}
+          >
+            На страницу входа
+          </button>
+        </div>
       </form>
     </main>
   );

@@ -41,80 +41,67 @@ export default function Admin() {
     }
   };
 
+  const renderCard = (title: string, content: React.ReactNode) => (
+    <main className="w-full min-h-screen flex justify-center items-center p-4">
+      <div className="w-full max-w-2xl bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-[#116fb7] rounded-3xl shadow-2xl overflow-hidden p-8 space-y-6">
+        <h2 className="text-center text-3xl font-bold text-gray-800">
+          {title}
+        </h2>
+        {content}
+      </div>
+    </main>
+  );
+
   if (redirectToLogin) {
     return <Navigate to="/login" />;
   }
 
   if (loading) {
-    return (
-      <main className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-200 via-gray-300 to-gray-400 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900">
-        <div className="shadow-lg rounded-xl px-8 pt-8 pb-10 mb-4 w-full max-w-sm border-2 bg-white dark:bg-gray-800 border-gray-300">
-          <h2 className="mb-7 text-center text-3xl font-extrabold text-gray-900 dark:text-white drop-shadow">
-            Загрузка...
-          </h2>
-        </div>
-      </main>
-    );
+    return renderCard("Загрузка...", <div className="text-center text-gray-600">Пожалуйста, подождите...</div>);
   }
 
   if (!profile || profile.role !== 'ADMIN') {
-    return (
-      <main className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-200 via-gray-300 to-gray-400 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900">
-        <div className="shadow-lg rounded-xl px-8 pt-8 pb-10 mb-4 w-full max-w-sm border-2 bg-white dark:bg-gray-800 border-gray-300">
-          <h2 className="mb-7 text-center text-3xl font-extrabold text-red-600 dark:text-red-500 drop-shadow">
-            Доступ запрещен
-          </h2>
-          <div className="mb-5 text-lg text-gray-900 dark:text-gray-100">
-            У вас нет прав для просмотра этой страницы. Ваша роль: {profile?.role}
-          </div>
+    return renderCard("Доступ запрещен", (
+        <div className="text-center text-red-600">
+            У вас нет прав для просмотра этой страницы.
         </div>
-      </main>
-    );
+    ));
   }
 
   if (error) {
-    return (
-      <main className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-200 via-gray-300 to-gray-400 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900">
-        <div className="shadow-lg rounded-xl px-8 pt-8 pb-10 mb-4 w-full max-w-sm border-2 bg-white dark:bg-gray-800 border-gray-300">
-          <h2 className="mb-7 text-center text-3xl font-extrabold text-red-600 dark:text-red-500 drop-shadow">
-            Ошибка
-          </h2>
-          <div className="mb-5 text-lg text-gray-900 dark:text-gray-100">
+    return renderCard("Ошибка", (
+        <div className="text-red-600 text-sm text-center font-semibold p-2 bg-red-100 rounded-lg">
             {error}
-          </div>
         </div>
-      </main>
-    );
+    ));
   }
 
-  return (
-    <main className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-200 via-gray-300 to-gray-400 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900">
-      <div className="shadow-lg rounded-xl px-8 pt-8 pb-10 mb-4 w-full max-w-md border-2 bg-white dark:bg-gray-800 border-gray-300">
-        <h2 className="mb-7 text-center text-3xl font-extrabold text-gray-900 dark:text-white drop-shadow">
-          Панель администратора
-        </h2>
-        <div className="mb-5 text-lg text-gray-900 dark:text-gray-100">
-          <ul>
-            {users.map((user) => (
-              <li key={user.id} className="flex justify-between items-center mb-2">
-                <span>{user.email} ({user.role})</span>
-                <button
-                  onClick={() => handleDelete(user.id)}
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                >
-                  Удалить
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
+  return renderCard("Панель администратора", (
+    <div className="space-y-4">
+      <ul className="space-y-3">
+        {users.map((user) => (
+          <li key={user.id} className="flex justify-between items-center bg-white/50 p-3 rounded-lg shadow">
+            <div className="flex flex-col">
+                <span className="font-semibold text-gray-800">{user.email}</span>
+                <span className="text-sm text-gray-600">{user.role}</span>
+            </div>
+            <button
+              onClick={() => handleDelete(user.id)}
+              className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-200"
+            >
+              Удалить
+            </button>
+          </li>
+        ))}
+      </ul>
+      <div className="pt-4">
         <button
-          onClick={() => navigate(-1)}
-          className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+            onClick={() => navigate(-1)}
+            className="w-full bg-transparent hover:bg-blue-100 text-[#116fb7] font-bold py-2 px-4 border border-[#116fb7] rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-200"
         >
-          Назад
+            Назад
         </button>
       </div>
-    </main>
-  );
+    </div>
+  ));
 }
