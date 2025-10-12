@@ -1,4 +1,4 @@
-package aim.Authorization.util;
+package aim.youngRating.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

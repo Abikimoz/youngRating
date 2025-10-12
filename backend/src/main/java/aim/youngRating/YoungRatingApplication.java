@@ -1,12 +1,12 @@
-package aim.Authorization;
+package aim.youngRating;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AuthorizationApplication {
+public class YoungRatingApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AuthorizationApplication.class, args);
+		SpringApplication.run(YoungRatingApplication.class, args);
 	}
 }

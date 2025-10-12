@@ -1,4 +1,4 @@
-package aim.Authorization.dto;
+package aim.youngRating.dto;
 
 import lombok.Data;
 

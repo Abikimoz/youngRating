@@ -1,4 +1,4 @@
-package aim.Authorization.config;
+package aim.youngRating.config;
 
 import org.springframework.context.annotation.Bean; // Для создания бина
 import org.springframework.context.annotation.Configuration; // Для пометки класса как конфигурационного

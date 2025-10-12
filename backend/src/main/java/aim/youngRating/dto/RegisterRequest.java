@@ -1,4 +1,4 @@
-package aim.Authorization.dto;
+package aim.youngRating.dto;
 
 // DTO для передачи данных при регистрации пользователя
 public class RegisterRequest {

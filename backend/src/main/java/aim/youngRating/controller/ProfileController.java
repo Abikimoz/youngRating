@@ -1,7 +1,7 @@
-package aim.Authorization.controller;
+package aim.youngRating.controller;
 
-import aim.Authorization.model.User;
-import aim.Authorization.service.UserService;
+import aim.youngRating.model.User;
+import aim.youngRating.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;

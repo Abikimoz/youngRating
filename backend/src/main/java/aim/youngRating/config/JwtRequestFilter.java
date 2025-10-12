@@ -1,7 +1,7 @@
-package aim.Authorization.config;
+package aim.youngRating.config;
 
-import aim.Authorization.service.UserService;
-import aim.Authorization.util.JwtTokenUtil;
+import aim.youngRating.service.UserService;
+import aim.youngRating.util.JwtTokenUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

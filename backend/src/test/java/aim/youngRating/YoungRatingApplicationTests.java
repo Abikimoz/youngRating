@@ -1,10 +1,10 @@
-package aim.Authorization;
+package aim.youngRating;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class AuthorizationApplicationTests {
+class YoungRatingApplicationTests {
 
 	@Test
 	void contextLoads() {

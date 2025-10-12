@@ -1,11 +1,11 @@
-package aim.Authorization.controller;
+package aim.youngRating.controller;
 
-import aim.Authorization.dto.JwtResponse;
-import aim.Authorization.dto.LoginRequest;
-import aim.Authorization.model.User;
-import aim.Authorization.service.UserService;
-import aim.Authorization.dto.RegisterRequest;
-import aim.Authorization.util.JwtTokenUtil;
+import aim.youngRating.dto.JwtResponse;
+import aim.youngRating.dto.LoginRequest;
+import aim.youngRating.model.User;
+import aim.youngRating.service.UserService;
+import aim.youngRating.dto.RegisterRequest;
+import aim.youngRating.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

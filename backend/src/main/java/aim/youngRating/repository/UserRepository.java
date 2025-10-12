@@ -1,6 +1,6 @@
-package aim.Authorization.repository;
+package aim.youngRating.repository;
 
-import aim.Authorization.model.User; // Импортируем сущность User
+import aim.youngRating.model.User; // Импортируем сущность User
 import org.springframework.data.jpa.repository.JpaRepository; // Импортируем JpaRepository
 import java.util.Optional; // Для возвращения Optional
 

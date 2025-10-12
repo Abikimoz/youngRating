@@ -1,4 +1,4 @@
-package aim.Authorization.model;
+package aim.youngRating.model;
 
 import jakarta.persistence.*;
 

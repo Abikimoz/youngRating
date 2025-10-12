@@ -1,7 +1,7 @@
-package aim.Authorization.service;
+package aim.youngRating.service;
 
-import aim.Authorization.model.User;
-import aim.Authorization.repository.UserRepository;
+import aim.youngRating.model.User;
+import aim.youngRating.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
