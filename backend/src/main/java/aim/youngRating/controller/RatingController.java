@@ -25,9 +25,7 @@ public class RatingController {
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> getRatingUsers() {
-        List<User> users = userService.findAllUsers().stream()
-                .filter(user -> !user.getRole().equals(Role.ADMIN))
-                .collect(Collectors.toList());
+        List<User> users = userService.findUsersForRating();
         return ResponseEntity.ok(users);
     }
 }

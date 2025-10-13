@@ -69,6 +69,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
+    public List<User> findUsersForRating() {
+        return userRepository.findByRoleNotOrderByScoreDesc(Role.ADMIN);
+    }
+
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
