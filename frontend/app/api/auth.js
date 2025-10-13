@@ -2,7 +2,7 @@
 const API_BASE_URL = 'http://localhost:8080/api'; // Базовый URL для backend API
 
 // Функция для регистрации нового пользователя
-export async function register({ email, password, role = 'user' }) {
+export async function register({ email, password, fullName, role = 'user' }) {
     try {
         const response = await fetch(`${API_BASE_URL}/auth/register`, {
             method: 'POST', // HTTP-метод
@@ -12,6 +12,7 @@ export async function register({ email, password, role = 'user' }) {
             body: JSON.stringify({ // Преобразуем объект в JSON-строку
                 email,
                 password,
+                fullName,
                 role
             })
         });

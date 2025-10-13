@@ -47,13 +47,14 @@ public class UserService implements UserDetailsService {
         );
     }
 
-    public User registerUser(String email, String password, String role) {
+    public User registerUser(String email, String password, String role, String fullName) {
         logger.info("Registering user: {}", email);
         User user = new User();
         user.setEmail(email);
         String encodedPassword = passwordEncoder.encode(password);
         user.setPassword(encodedPassword);
         user.setRole(Role.valueOf(role.toUpperCase()));
+        user.setFullName(fullName);
         User savedUser = userRepository.save(user);
         logger.info("User registered successfully: {}", savedUser.getEmail());
         return savedUser;

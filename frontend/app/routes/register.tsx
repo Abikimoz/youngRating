@@ -5,8 +5,9 @@ import { register } from "../api/auth"; // Импортируем функцию
 
 // Основной компонент страницы регистрации
 export default function Register() {
-  // Состояния для хранения введённых пользователем логина, пароля, подтверждения пароля и возможной ошибки
+  // Состояния для хранения введённых пользователем данных
   const [email, setEmail] = useState(""); // Email
+  const [fullName, setFullName] = useState(""); // ФИО
   const [password, setPassword] = useState(""); // Пароль
   const [confirmPassword, setConfirmPassword] = useState(""); // Подтверждение пароля
   const [error, setError] = useState(""); // Сообщение об ошибке
@@ -14,43 +15,40 @@ export default function Register() {
 
   // Обработчик отправки формы
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); // Предотвращаем стандартное поведение формы (перезагрузку страницы)
-    if (!email || !password || !confirmPassword) { // Проверяем, заполнены ли все поля
-      setError("Пожалуйста, заполните все поля"); // Если нет — выводим ошибку
+    e.preventDefault(); // Предотвращаем стандартное поведение формы
+    if (!email || !password || !confirmPassword || !fullName) { // Проверяем, заполнены ли все поля
+      setError("Пожалуйста, заполните все поля");
       return;
     }
     if (password !== confirmPassword) { // Проверяем совпадение паролей
-      setError("Пароли не совпадают"); // Если не совпадают — выводим ошибку
+      setError("Пароли не совпадают");
       return;
     }
-    setError(""); // Сбрасываем ошибку, если всё заполнено и пароли совпадают
+    setError(""); // Сбрасываем ошибку
     
     try {
-      // Вызываем API-функцию регистрации
-      const result = await register({ email, password, role: 'user' });
+      // Вызываем API-функцию регистрации с полным именем
+      const result = await register({ email, password, fullName, role: 'user' });
       if (result.success) {
-        // Можно сделать редирект на страницу входа
-        navigate('/login');
+        navigate('/login'); // Перенаправляем на страницу входа
       } else {
-        // Показываем ошибку от backend
-        setError(result.error);
+        setError(result.error || "Ошибка регистрации");
       }
     } catch (error) {
-      // Обрабатываем неожиданные ошибки
       setError("Произошла ошибка при регистрации");
       console.error("Ошибка регистрации:", error);
     }
   };
 
-  // Флаг для блокировки кнопки, если поля не заполнены или пароли не совпадают
-  const isDisabled = !email || !password || !confirmPassword || password !== confirmPassword;
+  // Флаг для блокировки кнопки
+  const isDisabled = !email || !password || !confirmPassword || !fullName || password !== confirmPassword;
 
   // JSX-разметка страницы
   return (
     <main className="w-full min-h-screen flex justify-center items-center p-4">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-sm bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-[#116fb7] rounded-3xl shadow-2xl overflow-hidden p-8 space-y-6"
+        className="w-full max-w-sm bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-[#116fb7] rounded-3xl shadow-2xl overflow-hidden p-8 space-y-4"
         noValidate
       >
         <h2 className="text-center text-3xl font-bold text-gray-800">
@@ -62,6 +60,23 @@ export default function Register() {
             {error}
           </div>
         )}
+
+        <div className="space-y-2">
+          <label className="text-sm font-bold text-gray-600" htmlFor="fullName">
+            ФИО
+          </label>
+          <input
+            id="fullName"
+            type="text"
+            value={fullName}
+            onChange={e => setFullName(e.target.value)}
+            className={`w-full px-4 py-2 border rounded-lg bg-white/80 focus:outline-none focus:ring-2 focus:ring-[#116fb7] transition-colors duration-200 ${
+              error && !fullName ? "border-red-500" : "border-gray-300"
+            }`}
+            autoComplete="name"
+            placeholder="Иванов Иван Иванович"
+          />
+        </div>
 
         <div className="space-y-2">
           <label className="text-sm font-bold text-gray-600" htmlFor="email">
@@ -135,4 +150,4 @@ export default function Register() {
       </form>
     </main>
   );
-} 
+}

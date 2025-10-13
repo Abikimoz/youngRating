@@ -5,4 +5,5 @@ public class RegisterRequest {
     public String email; // Email
     public String password; // Пароль
     public String role;     // Роль (например, "user")
+    public String fullName; // ФИО
 }
