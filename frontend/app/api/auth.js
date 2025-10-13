@@ -128,4 +128,29 @@ export async function deleteUser(id) {
         console.error('Ошибка при удалении пользователя:', error);
         return { success: false, error: 'Сетевая ошибка' };
     }
+}
+
+// Функция для получения пользователей для рейтинга
+export async function getRatingUsers() {
+    try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${API_BASE_URL}/rating/users`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (response.ok) {
+            const users = await response.json();
+            return { success: true, users };
+        } else {
+            const errorMessage = await response.text();
+            return { success: false, error: errorMessage };
+        }
+    } catch (error) {
+        console.error('Ошибка при получении пользователей для рейтинга:', error);
+        return { success: false, error: 'Сетевая ошибка' };
+    }
 } 

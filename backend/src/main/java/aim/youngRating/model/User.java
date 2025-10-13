@@ -1,5 +1,6 @@
 package aim.youngRating.model;
 
+import aim.youngRating.model.enums.Role;
 import jakarta.persistence.*;
 
 // Сущность пользователя для хранения в БД
@@ -16,8 +17,9 @@ public class User {
     @Column(nullable = false)
     private String password; // Хэш пароля
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String role; // Роль пользователя (например, "user" или "admin")
+    private Role role; // Роль пользователя (например, "user" или "admin")
 
     // Геттеры и сеттеры
     public Long getId() { return id; }
@@ -29,6 +31,6 @@ public class User {
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
 
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
+    public Role getRole() { return role; }
+    public void setRole(Role role) { this.role = role; }
 } 

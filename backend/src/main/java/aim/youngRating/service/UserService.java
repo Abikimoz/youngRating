@@ -1,6 +1,7 @@
 package aim.youngRating.service;
 
 import aim.youngRating.model.User;
+import aim.youngRating.model.enums.Role;
 import aim.youngRating.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +43,7 @@ public class UserService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole()))
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
         );
     }
 
@@ -52,7 +53,7 @@ public class UserService implements UserDetailsService {
         user.setEmail(email);
         String encodedPassword = passwordEncoder.encode(password);
         user.setPassword(encodedPassword);
-        user.setRole(role);
+        user.setRole(Role.valueOf(role.toUpperCase()));
         User savedUser = userRepository.save(user);
         logger.info("User registered successfully: {}", savedUser.getEmail());
         return savedUser;

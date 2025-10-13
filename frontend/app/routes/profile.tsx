@@ -71,6 +71,12 @@ export default function Profile() {
           </button>
         )}
         <button
+          onClick={() => navigate("/rating")}
+          className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline shadow-md transition-transform duration-200 transform hover:scale-105"
+        >
+          Рейтинг
+        </button>
+        <button
           onClick={() => {
             localStorage.removeItem("token");
             navigate("/login");
