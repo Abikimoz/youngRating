@@ -21,6 +21,12 @@ public class User {
     @Column(nullable = false)
     private Role role; // Роль пользователя (например, "user" или "admin")
 
+    @Column(name = "full_name")
+    private String fullName;
+
+    @Column
+    private Integer score = 0;
+
     // Геттеры и сеттеры
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -33,4 +39,20 @@ public class User {
 
     public Role getRole() { return role; }
     public void setRole(Role role) { this.role = role; }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
 } 
