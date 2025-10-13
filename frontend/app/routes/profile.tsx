@@ -15,6 +15,8 @@ export default function Profile() {
         setUser(result.profile);
       } else {
         setError(result.error);
+        // Если профиль не загружен, возможно, токен истек или невалиден
+        // Лучше перенаправить на логин, чтобы пользователь мог войти снова
         navigate("/login");
       }
     };
@@ -22,10 +24,11 @@ export default function Profile() {
     fetchProfile();
   }, [navigate]);
 
+  // Функция для рендера основной карточки страницы
   const renderCard = (title: string, content: React.ReactNode) => (
-    <main className="w-full min-h-screen flex justify-center items-center p-4">
-      <div className="w-full max-w-sm bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-[#116fb7] rounded-3xl shadow-2xl overflow-hidden p-8 space-y-6">
-        <h2 className="text-center text-3xl font-bold text-gray-800">
+    <main className="w-full min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
+      <div className="w-full max-w-2xl mx-auto bg-white border-2 border-gray-200 rounded-3xl shadow-lg overflow-hidden p-6 sm:p-8 space-y-6">
+        <h2 className="text-center text-4xl font-bold text-gray-800">
           {title}
         </h2>
         {content}
@@ -35,7 +38,7 @@ export default function Profile() {
 
   if (error) {
     return renderCard("Ошибка", (
-      <div className="text-red-600 text-sm text-center font-semibold p-2 bg-red-100 rounded-lg">
+      <div className="text-red-600 text-center font-semibold p-3 bg-red-100 rounded-lg">
         {error}
       </div>
     ));
@@ -51,28 +54,32 @@ export default function Profile() {
 
   return renderCard("Профиль", (
     <>
-      <div className="space-y-4 text-gray-700">
-        <div className="flex justify-between">
+      <div className="space-y-4 text-gray-700 text-lg p-4 bg-gray-50 rounded-lg">
+        <div className="flex justify-between border-b pb-2">
+          <span className="font-bold">ФИО:</span>
+          <span className="text-right">{user.fullName || 'Не указано'}</span>
+        </div>
+        <div className="flex justify-between border-b pb-2">
           <span className="font-bold">Email:</span>
-          <span>{user.email}</span>
+          <span className="text-right">{user.email}</span>
         </div>
         <div className="flex justify-between">
           <span className="font-bold">Роль:</span>
-          <span>{user.role}</span>
+          <span className="text-right font-semibold">{user.role}</span>
         </div>
       </div>
-      <div className="flex flex-col gap-4 pt-4">
+      <div className="flex flex-col items-center gap-4 pt-6">
         {user.role === 'ADMIN' && (
           <button
             onClick={() => navigate("/admin")}
-            className="w-full bg-[#116fb7] hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline shadow-md transition-transform duration-200 transform hover:scale-105"
+            className="w-full max-w-xs bg-[#116fb7] hover:bg-blue-800 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline shadow-md transition-transform duration-200 transform hover:scale-105"
           >
             Админ панель
           </button>
         )}
         <button
           onClick={() => navigate("/rating")}
-          className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline shadow-md transition-transform duration-200 transform hover:scale-105"
+          className="w-full max-w-xs bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline shadow-md transition-transform duration-200 transform hover:scale-105"
         >
           Рейтинг
         </button>
@@ -81,11 +88,11 @@ export default function Profile() {
             localStorage.removeItem("token");
             navigate("/login");
           }}
-          className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline shadow-md transition-transform duration-200 transform hover:scale-105"
+          className="w-full max-w-xs bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline shadow-md transition-transform duration-200 transform hover:scale-105"
         >
           Выйти
         </button>
       </div>
     </>
   ));
-} 
+}
