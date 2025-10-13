@@ -24,7 +24,7 @@ export default function Login() {
 
     if (result.success) {
       localStorage.setItem("token", result.data.token);
-      navigate("/profile");
+      navigate("/rating");
     } else {
       setError(result.error || "Ошибка входа");
     }

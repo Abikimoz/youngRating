@@ -40,7 +40,7 @@ export default function Rating() {
     ));
   }
 
-  return renderCard("Рейтинг специалистов", (
+  return renderCard("Рейтинг молодых специалистов", (
     <div className="space-y-4">
       {users.map((user) => (
         <div key={user.id} className="flex justify-between items-center p-3 bg-white rounded-lg shadow-sm">
@@ -52,7 +52,7 @@ export default function Rating() {
           onClick={() => navigate("/profile")}
           className="w-full bg-[#116fb7] hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline shadow-md transition-transform duration-200 transform hover:scale-105"
         >
-          Назад в профиль
+          Профиль
         </button>
     </div>
   ));
