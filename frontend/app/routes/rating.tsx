@@ -30,8 +30,8 @@ export default function Rating() {
   }, []);
 
   const renderCard = (title: string, content: React.ReactNode) => (
-    <main className="w-full min-h-screen flex justify-center items-center p-4 bg-gray-50">
-      <div className="w-full max-w-2xl bg-white border-2 border-gray-200 rounded-3xl shadow-lg overflow-hidden p-8 space-y-6">
+    <main className="w-full min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
+      <div className="w-full bg-white border-2 border-gray-200 rounded-3xl shadow-lg overflow-hidden p-6 sm:p-8 space-y-6">
         <h2 className="text-center text-4xl font-bold text-gray-800">
           {title}
         </h2>
@@ -78,12 +78,14 @@ export default function Rating() {
           </div>
         </div>
       </div>
-       <button
+      <div className="mt-8 flex justify-center">
+        <button
           onClick={() => navigate("/profile")}
-          className="w-full mt-6 bg-[#116fb7] hover:bg-blue-800 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline shadow-md transition-transform duration-200 transform hover:scale-105"
+          className="w-full max-w-xs bg-[#116fb7] hover:bg-blue-800 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline shadow-md transition-transform duration-200 transform hover:scale-105"
         >
           Перейти в профиль
         </button>
+      </div>
     </div>
   ));
 }
