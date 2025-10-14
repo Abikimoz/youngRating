@@ -20,7 +20,7 @@ public class RatingService {
     }
 
     public List<Activity> getActivitiesByUserId(Long userId) {
-        return activityRepository.findByUserId(userId);
+        return activityRepository.findByUserIdOrderByDateDesc(userId);
     }
 
     public ActivityDto convertToDto(Activity activity) {
