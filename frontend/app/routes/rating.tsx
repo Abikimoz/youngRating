@@ -83,7 +83,7 @@ export default function Rating() {
           onClick={() => navigate("/profile")}
           className="w-full max-w-xs bg-[#116fb7] hover:bg-blue-800 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline shadow-md transition-transform duration-200 transform hover:scale-105"
         >
-          Перейти в профиль
+          Личный кабинет
         </button>
       </div>
     </div>
