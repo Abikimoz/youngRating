@@ -180,3 +180,29 @@ export async function getMyActivities() {
         return { success: false, error: 'Сетевая ошибка' };
     }
 }
+
+// Функция для добавления нового мероприятия
+export async function addActivity(activityData) {
+    try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${API_BASE_URL}/rating/activities`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(activityData)
+        });
+
+        if (response.ok) {
+            const newActivity = await response.json();
+            return { success: true, newActivity };
+        } else {
+            const errorMessage = await response.text();
+            return { success: false, error: errorMessage };
+        }
+    } catch (error) {
+        console.error('Ошибка при добавлении мероприятия:', error);
+        return { success: false, error: 'Сетевая ошибка' };
+    }
+}
