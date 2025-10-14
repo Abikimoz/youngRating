@@ -154,4 +154,29 @@ export async function getRatingUsers() {
         console.error('Ошибка при получении пользователей для рейтинга:', error);
         return { success: false, error: 'Сетевая ошибка' };
     }
-} 
+}
+
+// Функция для получения мероприятий пользователя
+export async function getMyActivities() {
+    try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${API_BASE_URL}/rating/my-activities`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (response.ok) {
+            const activities = await response.json();
+            return { success: true, activities };
+        } else {
+            const errorMessage = await response.text();
+            return { success: false, error: errorMessage };
+        }
+    } catch (error) {
+        console.error('Ошибка при получении мероприятий:', error);
+        return { success: false, error: 'Сетевая ошибка' };
+    }
+}

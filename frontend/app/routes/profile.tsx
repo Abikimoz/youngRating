@@ -1,27 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { getProfile } from "../api/auth";
+import { getProfile, getMyActivities } from "../api/auth";
 
 // Компонент страницы профиля
 export default function Profile() {
   const [user, setUser] = useState(null);
+  const [activities, setActivities] = useState([]);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      const result = await getProfile();
-      if (result.success) {
-        setUser(result.profile);
+    const fetchProfileAndActivities = async () => {
+      const profileResult = await getProfile();
+      if (profileResult.success) {
+        setUser(profileResult.profile);
       } else {
-        setError(result.error);
-        // Если профиль не загружен, возможно, токен истек или невалиден
-        // Лучше перенаправить на логин, чтобы пользователь мог войти снова
+        setError(profileResult.error);
         navigate("/login");
+        return;
+      }
+
+      const activitiesResult = await getMyActivities();
+      if (activitiesResult.success) {
+        setActivities(activitiesResult.activities);
+      } else {
+        // Можно установить отдельную ошибку для мероприятий, если нужно
+        console.error(activitiesResult.error);
       }
     };
 
-    fetchProfile();
+    fetchProfileAndActivities();
   }, [navigate]);
 
   // Функция для рендера основной карточки страницы
@@ -68,6 +76,37 @@ export default function Profile() {
           <span className="text-right font-semibold">{user.role}</span>
         </div>
       </div>
+
+      <div className="mt-6">
+        <h3 className="text-2xl font-bold text-gray-800 mb-4">Мои мероприятия</h3>
+        {activities.length > 0 ? (
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-white border border-gray-200">
+              <thead>
+                <tr className="bg-gray-100">
+                  <th className="py-2 px-4 border-b">Название</th>
+                  <th className="py-2 px-4 border-b">Дата</th>
+                  <th className="py-2 px-4 border-b">Баллы</th>
+                  <th className="py-2 px-4 border-b">Статус</th>
+                </tr>
+              </thead>
+              <tbody>
+                {activities.map((activity) => (
+                  <tr key={activity.id} className="hover:bg-gray-50">
+                    <td className="py-2 px-4 border-b">{activity.name}</td>
+                    <td className="py-2 px-4 border-b">{new Date(activity.date).toLocaleDateString()}</td>
+                    <td className="py-2 px-4 border-b">{activity.points}</td>
+                    <td className="py-2 px-4 border-b">{activity.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <p className="text-gray-600">У вас пока нет добавленных мероприятий.</p>
+        )}
+      </div>
+
       <div className="flex flex-col items-center gap-4 pt-6">
         {user.role === 'ADMIN' && (
           <button
