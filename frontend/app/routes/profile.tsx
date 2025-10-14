@@ -9,6 +9,13 @@ export default function Profile() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  const categoryTranslations = {
+    SCIENTIFIC: 'Научная',
+    SPORT: 'Спортивная',
+    SOCIAL: 'Социальная',
+    ORGANIZATIONAL: 'Организационная',
+  };
+
   useEffect(() => {
     const fetchProfileAndActivities = async () => {
       const profileResult = await getProfile();
@@ -35,7 +42,7 @@ export default function Profile() {
   // Функция для рендера основной карточки страницы
   const renderCard = (title: string, content: React.ReactNode) => (
     <main className="w-full min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
-      <div className="w-full max-w-2xl mx-auto bg-white border-2 border-gray-200 rounded-3xl shadow-lg overflow-hidden p-6 sm:p-8 space-y-6">
+      <div className="w-full max-w-4xl mx-auto bg-white border-2 border-gray-200 rounded-3xl shadow-lg overflow-hidden p-6 sm:p-8 space-y-6">
         <h2 className="text-center text-4xl font-bold text-gray-800">
           {title}
         </h2>
@@ -84,6 +91,8 @@ export default function Profile() {
             <table className="min-w-full bg-white border border-gray-200">
               <thead>
                 <tr className="bg-gray-100">
+                  <th className="py-2 px-4 border-b">№</th>
+                  <th className="py-2 px-4 border-b">Направление</th>
                   <th className="py-2 px-4 border-b">Название</th>
                   <th className="py-2 px-4 border-b">Дата</th>
                   <th className="py-2 px-4 border-b">Баллы</th>
@@ -91,8 +100,10 @@ export default function Profile() {
                 </tr>
               </thead>
               <tbody>
-                {activities.map((activity) => (
+                {activities.map((activity, index) => (
                   <tr key={activity.id} className="hover:bg-gray-50">
+                    <td className="py-2 px-4 border-b">{index + 1}</td>
+                    <td className="py-2 px-4 border-b">{categoryTranslations[activity.category] || activity.category}</td>
                     <td className="py-2 px-4 border-b">{activity.name}</td>
                     <td className="py-2 px-4 border-b">{new Date(activity.date).toLocaleDateString()}</td>
                     <td className="py-2 px-4 border-b">{activity.points}</td>
