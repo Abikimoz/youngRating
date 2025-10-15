@@ -2,8 +2,10 @@ package aim.youngRating.controller;
 
 import aim.youngRating.dto.ActivityDto;
 import aim.youngRating.dto.ActivityRequest;
+import aim.youngRating.dto.UserRatingDto;
 import aim.youngRating.model.Activity;
 import aim.youngRating.model.User;
+import aim.youngRating.model.enums.ActivityStatus;
 import aim.youngRating.service.RatingService;
 import aim.youngRating.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,9 +33,20 @@ public class RatingController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getRatingUsers() {
+    public ResponseEntity<List<UserRatingDto>> getRatingUsers() {
         List<User> users = userService.findUsersForRating();
-        return ResponseEntity.ok(users);
+        List<UserRatingDto> userRatingDtos = users.stream()
+                .map(user -> {
+                    List<Activity> activities = ratingService.getActivitiesByUserId(user.getId());
+                    int score = activities.stream()
+                            .filter(activity -> activity.getStatus() == ActivityStatus.APPROVED)
+                            .mapToInt(Activity::getPoints)
+                            .sum();
+                    return new UserRatingDto(user.getId(), user.getFullName(), score);
+                })
+                .sorted(Comparator.comparingInt(UserRatingDto::getScore).reversed())
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(userRatingDtos);
     }
 
     @GetMapping("/my-activities")

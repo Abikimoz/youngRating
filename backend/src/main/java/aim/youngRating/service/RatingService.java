@@ -50,12 +50,6 @@ public class RatingService {
         activity.setStatus(ActivityStatus.REJECTED);
         activity.setPoints(0);
 
-        // Recalculate user's score
-        User user = activity.getUser();
-        List<Activity> approvedActivities = activityRepository.findByUserIdAndStatus(user.getId(), ActivityStatus.APPROVED);
-        int totalScore = approvedActivities.stream().mapToInt(Activity::getPoints).sum();
-        user.setScore(totalScore);
-
         return activityRepository.save(activity);
     }
 
@@ -65,12 +59,6 @@ public class RatingService {
 
         activity.setPoints(points);
         activity.setStatus(ActivityStatus.APPROVED);
-
-        User user = activity.getUser();
-        List<Activity> approvedActivities = activityRepository.findByUserIdAndStatus(user.getId(), ActivityStatus.APPROVED);
-
-        int totalScore = approvedActivities.stream().mapToInt(Activity::getPoints).sum();
-        user.setScore(totalScore);
 
         return activityRepository.save(activity);
     }

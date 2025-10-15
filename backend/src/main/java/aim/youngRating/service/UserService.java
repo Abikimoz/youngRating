@@ -70,7 +70,7 @@ public class UserService implements UserDetailsService {
     }
 
     public List<User> findUsersForRating() {
-        return userRepository.findByRoleNotOrderByScoreDesc(Role.ADMIN);
+        return userRepository.findByRoleNot(Role.ADMIN);
     }
 
     public void deleteUser(Long id) {

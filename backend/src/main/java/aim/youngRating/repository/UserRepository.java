@@ -12,5 +12,5 @@ public interface UserRepository extends JpaRepository<User, Long> { // Насл�
     Optional<User> findByEmail(String email); // Метод поиска пользователя по email (возвращает Optional)
     boolean existsByEmail(String email); // Метод проверки существования пользователя по email
 
-    List<User> findByRoleNotOrderByScoreDesc(Role role);
+    List<User> findByRoleNot(Role role);
 } 
