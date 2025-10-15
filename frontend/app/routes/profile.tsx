@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { getProfile, getMyActivities, addActivity } from "../api/auth";
+import AddActivityModal from "../components/AddActivityModal";
 
 // Компонент страницы профиля
 export default function Profile() {
@@ -67,35 +68,12 @@ export default function Profile() {
           {title}
         </h2>
         {content}
-        {isModalOpen && (
-          <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
-            <div className="relative mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-              <h3 className="text-lg font-medium leading-6 text-gray-900">Добавить мероприятие</h3>
-              <form onSubmit={handleAddActivity} className="mt-2 space-y-4">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700">Название</label>
-                  <input type="text" name="name" id="name" className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required />
-                </div>
-                <div>
-                  <label htmlFor="date" className="block text-sm font-medium text-gray-700">Дата</label>
-                  <input type="date" name="date" id="date" className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required />
-                </div>
-                <div>
-                  <label htmlFor="category" className="block text-sm font-medium text-gray-700">Направление</label>
-                  <select name="category" id="category" className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
-                    {Object.keys(categoryTranslations).map(key => (
-                      <option key={key} value={key}>{categoryTranslations[key]}</option>
-                    ))}
-                  </select>
-                </div>
-                <div className="items-center gap-2 mt-3 sm:flex">
-                  <button type="submit" className="w-full mt-2 p-2.5 flex-1 text-white bg-blue-600 rounded-md outline-none ring-offset-2 ring-blue-600 focus:ring-2">Добавить</button>
-                  <button type="button" className="w-full mt-2 p-2.5 flex-1 text-gray-800 rounded-md outline-none border ring-offset-2 ring-indigo-600 focus:ring-2" onClick={() => setIsModalOpen(false)}>Отмена</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
+        <AddActivityModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={handleAddActivity}
+          categoryTranslations={categoryTranslations}
+        />
       </div>
     </main>
   );
