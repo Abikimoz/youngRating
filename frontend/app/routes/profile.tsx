@@ -18,6 +18,12 @@ export default function Profile() {
     ORGANIZATIONAL: 'Организационная деятельность',
   };
 
+  const statusTranslations = {
+    PENDING: 'На рассмотрении',
+    APPROVED: 'Одобрено',
+    REJECTED: 'Отклонено',
+  };
+
   const fetchActivities = async () => {
     const activitiesResult = await getMyActivities();
     if (activitiesResult.success) {
@@ -137,7 +143,7 @@ export default function Profile() {
                     <td className="py-2 px-4 border-b">{activity.name}</td>
                     <td className="py-2 px-4 border-b">{new Date(activity.date).toLocaleDateString()}</td>
                     <td className="py-2 px-4 border-b">{activity.points}</td>
-                    <td className="py-2 px-4 border-b">{activity.status}</td>
+                    <td className="py-2 px-4 border-b">{statusTranslations[activity.status] || activity.status}</td>
                   </tr>
                 ))}
               </tbody>
