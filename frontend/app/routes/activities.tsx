@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { getAllActivities, approveActivity, rejectActivity } from "../api/auth";
 
 export default function Activities() {
   const [activities, setActivities] = useState([]);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const categoryTranslations = {
     SCIENTIFIC: 'Научная и рационализаторская деятельность',
@@ -54,7 +56,7 @@ export default function Activities() {
 
   return (
     <main className="w-full min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
-      <div className="w-full max-w-6xl mx-auto bg-white border-2 border-gray-200 rounded-3xl shadow-lg overflow-hidden p-6 sm:p-8 space-y-6">
+      <div className="w-full max-w-full mx-auto bg-white border-2 border-gray-200 rounded-3xl shadow-lg overflow-hidden p-6 sm:p-8 space-y-6">
         <h2 className="text-center text-4xl font-bold text-gray-800">
           Управление мероприятиями
         </h2>
@@ -108,6 +110,14 @@ export default function Activities() {
         ) : (
           <p className="text-gray-600 text-center">Нет мероприятий для управления.</p>
         )}
+        <div className="pt-4 flex gap-4">
+            <button
+                onClick={() => navigate(-1)}
+                className="w-full bg-transparent hover:bg-blue-100 text-[#116fb7] font-bold py-2 px-4 border border-[#116fb7] rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-200"
+            >
+                Назад
+            </button>
+        </div>
       </div>
     </main>
   );
