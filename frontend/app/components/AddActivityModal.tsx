@@ -14,7 +14,7 @@ const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onClose, on
 
   return (
     <div className="fixed inset-0 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center backdrop-blur-sm">
-      <div className="relative mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+      <div className="relative mx-auto p-5 border w-auto max-w-full min-w-max shadow-lg rounded-md bg-white">
         <h3 className="text-lg font-medium leading-6 text-gray-900">Добавить мероприятие</h3>
         <form onSubmit={onSubmit} className="mt-2 space-y-4">
           <div>
