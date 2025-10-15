@@ -11,10 +11,10 @@ export default function Profile() {
   const navigate = useNavigate();
 
   const categoryTranslations = {
-    SCIENTIFIC: 'Научная',
-    SPORT: 'Спортивная',
-    SOCIAL: 'Социальная',
-    ORGANIZATIONAL: 'Организационная',
+    SCIENTIFIC: 'Научная и рационализаторская деятельность',
+    SPORT: 'Спортивная деятельность',
+    SOCIAL: 'Социальная, культурно-массовая и информационная деятельность',
+    ORGANIZATIONAL: 'Организационная деятельность',
   };
 
   const fetchActivities = async () => {
@@ -144,8 +144,8 @@ export default function Profile() {
               <thead>
                 <tr className="bg-gray-100">
                   <th className="py-2 px-4 border-b">№</th>
-                  <th className="py-2 px-4 border-b">Название</th>
                   <th className="py-2 px-4 border-b">Направление</th>
+                  <th className="py-2 px-4 border-b">Название</th>
                   <th className="py-2 px-4 border-b">Дата</th>
                   <th className="py-2 px-4 border-b">Баллы</th>
                   <th className="py-2 px-4 border-b">Статус</th>
@@ -155,8 +155,8 @@ export default function Profile() {
                 {activities.map((activity, index) => (
                   <tr key={activity.id} className="hover:bg-gray-50">
                     <td className="py-2 px-4 border-b">{index + 1}</td>
-                    <td className="py-2 px-4 border-b">{activity.name}</td>
                     <td className="py-2 px-4 border-b">{categoryTranslations[activity.category] || activity.category}</td>
+                    <td className="py-2 px-4 border-b">{activity.name}</td>
                     <td className="py-2 px-4 border-b">{new Date(activity.date).toLocaleDateString()}</td>
                     <td className="py-2 px-4 border-b">{activity.points}</td>
                     <td className="py-2 px-4 border-b">{activity.status}</td>
