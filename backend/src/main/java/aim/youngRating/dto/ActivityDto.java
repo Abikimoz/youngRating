@@ -13,8 +13,9 @@ public class ActivityDto {
     private ActivityStatus status;
     private ActivityCategory category;
     private String documentUrl;
+    private UserDto user;
 
-    public ActivityDto(Long id, String name, LocalDate date, Integer points, ActivityStatus status, ActivityCategory category, String documentUrl) {
+    public ActivityDto(Long id, String name, LocalDate date, Integer points, ActivityStatus status, ActivityCategory category, String documentUrl, UserDto user) {
         this.id = id;
         this.name = name;
         this.date = date;
@@ -22,6 +23,7 @@ public class ActivityDto {
         this.status = status;
         this.category = category;
         this.documentUrl = documentUrl;
+        this.user = user;
     }
 
     // Getters and Setters
@@ -80,5 +82,13 @@ public class ActivityDto {
 
     public void setDocumentUrl(String documentUrl) {
         this.documentUrl = documentUrl;
+    }
+
+    public UserDto getUser() {
+        return user;
+    }
+
+    public void setUser(UserDto user) {
+        this.user = user;
     }
 }

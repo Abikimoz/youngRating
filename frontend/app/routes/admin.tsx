@@ -94,12 +94,18 @@ export default function Admin() {
           </li>
         ))}
       </ul>
-      <div className="pt-4">
+      <div className="pt-4 flex gap-4">
         <button
             onClick={() => navigate(-1)}
             className="w-full bg-transparent hover:bg-blue-100 text-[#116fb7] font-bold py-2 px-4 border border-[#116fb7] rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-200"
         >
             Назад
+        </button>
+        <button
+            onClick={() => navigate("/activities")}
+            className="w-full bg-[#116fb7] hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-200"
+        >
+            Управление мероприятиями
         </button>
       </div>
     </div>

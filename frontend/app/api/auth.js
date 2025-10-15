@@ -206,3 +206,75 @@ export async function addActivity(activityData) {
         return { success: false, error: 'Сетевая ошибка' };
     }
 }
+
+export async function getAllActivities() {
+    try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${API_BASE_URL}/activities`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (response.ok) {
+            const activities = await response.json();
+            return { success: true, activities };
+        } else {
+            const errorMessage = await response.text();
+            return { success: false, error: errorMessage };
+        }
+    } catch (error) {
+        console.error('Ошибка при получении всех мероприятий:', error);
+        return { success: false, error: 'Сетевая ошибка' };
+    }
+}
+
+export async function approveActivity(activityId, points) {
+    try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${API_BASE_URL}/activities/${activityId}/approve?points=${points}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (response.ok) {
+            const updatedActivity = await response.json();
+            return { success: true, updatedActivity };
+        } else {
+            const errorMessage = await response.text();
+            return { success: false, error: errorMessage };
+        }
+    } catch (error) {
+        console.error('Ошибка при одобрении мероприятия:', error);
+        return { success: false, error: 'Сетевая ошибка' };
+    }
+}
+
+export async function rejectActivity(activityId) {
+    try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${API_BASE_URL}/activities/${activityId}/reject`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (response.ok) {
+            const updatedActivity = await response.json();
+            return { success: true, updatedActivity };
+        } else {
+            const errorMessage = await response.text();
+            return { success: false, error: errorMessage };
+        }
+    } catch (error) {
+        console.error('Ошибка при отклонении мероприятия:', error);
+        return { success: false, error: 'Сетевая ошибка' };
+    }
+}

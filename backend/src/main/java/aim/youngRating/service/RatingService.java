@@ -2,6 +2,7 @@ package aim.youngRating.service;
 
 import aim.youngRating.dto.ActivityDto;
 import aim.youngRating.dto.ActivityRequest;
+import aim.youngRating.dto.UserDto;
 import aim.youngRating.model.Activity;
 import aim.youngRating.model.User;
 import aim.youngRating.model.enums.ActivityStatus;
@@ -38,7 +39,45 @@ public class RatingService {
         return activityRepository.save(activity);
     }
 
+    public List<Activity> getAllActivities() {
+        return activityRepository.findAll();
+    }
+
+    public Activity rejectActivity(Long activityId) {
+        Activity activity = activityRepository.findById(activityId)
+                .orElseThrow(() -> new RuntimeException("Activity not found"));
+
+        activity.setStatus(ActivityStatus.REJECTED);
+        activity.setPoints(0);
+
+        // Recalculate user's score
+        User user = activity.getUser();
+        List<Activity> approvedActivities = activityRepository.findByUserIdAndStatus(user.getId(), ActivityStatus.APPROVED);
+        int totalScore = approvedActivities.stream().mapToInt(Activity::getPoints).sum();
+        user.setScore(totalScore);
+
+        return activityRepository.save(activity);
+    }
+
+    public Activity approveActivity(Long activityId, int points) {
+        Activity activity = activityRepository.findById(activityId)
+                .orElseThrow(() -> new RuntimeException("Activity not found"));
+
+        activity.setPoints(points);
+        activity.setStatus(ActivityStatus.APPROVED);
+
+        User user = activity.getUser();
+        List<Activity> approvedActivities = activityRepository.findByUserIdAndStatus(user.getId(), ActivityStatus.APPROVED);
+
+        int totalScore = approvedActivities.stream().mapToInt(Activity::getPoints).sum();
+        user.setScore(totalScore);
+
+        return activityRepository.save(activity);
+    }
+
     public ActivityDto convertToDto(Activity activity) {
+        User user = activity.getUser();
+        UserDto userDto = new UserDto(user.getId(), user.getFullName(), user.getEmail());
         return new ActivityDto(
                 activity.getId(),
                 activity.getName(),
@@ -46,7 +85,8 @@ public class RatingService {
                 activity.getPoints(),
                 activity.getStatus(),
                 activity.getCategory(),
-                activity.getDocumentUrl()
+                activity.getDocumentUrl(),
+                userDto
         );
     }
 }
