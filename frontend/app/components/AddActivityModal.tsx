@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { activityNames } from "../activities";
 
 interface AddActivityModalProps {
@@ -10,10 +10,41 @@ interface AddActivityModalProps {
 
 const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onClose, onSubmit, categoryTranslations }) => {
   const [selectedCategory, setSelectedCategory] = useState(Object.keys(categoryTranslations)[0]);
+  // Состояние для хранения длины обрезки текста
+  const [truncateLength, setTruncateLength] = useState(50);
+  // Ref для доступа к элементу select
+  const selectRef = useRef<HTMLSelectElement>(null);
 
   useEffect(() => {
     if (isOpen) {
       setSelectedCategory(Object.keys(categoryTranslations)[0]);
+
+      // Функция для вычисления длины обрезки на основе ширины элемента select
+      const calculateTruncateLength = () => {
+        if (selectRef.current) {
+          const width = selectRef.current.offsetWidth;
+          // Предполагая среднюю ширину символа 8px для шрифта 16px, вычисляем, сколько символов поместится
+          // Вычитаем 5, чтобы добавить небольшой отступ
+          const chars = Math.floor(width / 9) - 2;
+          setTruncateLength(chars);
+        }
+      };
+
+      // Небольшая задержка, чтобы убедиться, что модальное окно отобразилось и имеет окончательную ширину
+      const timeoutId = setTimeout(calculateTruncateLength, 100);
+
+      // Обработчик изменения размера окна
+      const handleResize = () => {
+        calculateTruncateLength();
+      };
+
+      window.addEventListener('resize', handleResize); // Добавляем слушатель события изменения размера окна
+
+      // Очистка слушателя и таймаута при размонтировании компонента или закрытии модального окна
+      return () => {
+        clearTimeout(timeoutId);
+        window.removeEventListener('resize', handleResize);
+      };
     }
   }, [isOpen, categoryTranslations]);
 
@@ -23,6 +54,11 @@ const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onClose, on
 
   const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCategory(event.target.value);
+  };
+
+  // Функция для обрезки строки до n символов и добавления многоточия
+  const truncate = (str: string, n: number) => {
+    return (str.length > n) ? str.substr(0, n - 1) + '...' : str;
   };
 
   return (
@@ -40,9 +76,11 @@ const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onClose, on
           </div>
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">Наименование мероприятия</label>
-            <select name="name" id="name" className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
+            {/* Ref используется для получения ширины элемента select */}
+            <select name="name" id="name" ref={selectRef} className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
               {activityNames[selectedCategory]?.map(name => (
-                <option key={name} value={name} title={name}>{name}</option>
+                // Атрибут title показывает полный текст при наведении
+                <option key={name} value={name} title={name}>{truncate(name, truncateLength)}</option>
               ))}
             </select>
           </div>
