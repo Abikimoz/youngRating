@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { activityNames } from "../activities";
 
 interface AddActivityModalProps {
   isOpen: boolean;
@@ -8,9 +9,21 @@ interface AddActivityModalProps {
 }
 
 const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onClose, onSubmit, categoryTranslations }) => {
+  const [selectedCategory, setSelectedCategory] = useState(Object.keys(categoryTranslations)[0]);
+
+  useEffect(() => {
+    if (isOpen) {
+      setSelectedCategory(Object.keys(categoryTranslations)[0]);
+    }
+  }, [isOpen, categoryTranslations]);
+
   if (!isOpen) {
     return null;
   }
+
+  const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCategory(event.target.value);
+  };
 
   return (
     <div className="fixed inset-0 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center backdrop-blur-sm">
@@ -19,15 +32,19 @@ const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onClose, on
         <form onSubmit={onSubmit} className="mt-2 space-y-4">
           <div>
             <label htmlFor="category" className="block text-sm font-medium text-gray-700">Направление</label>
-            <select name="category" id="category" className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
+            <select name="category" id="category" className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required onChange={handleCategoryChange} value={selectedCategory}>
               {Object.keys(categoryTranslations).map(key => (
                 <option key={key} value={key}>{categoryTranslations[key]}</option>
               ))}
             </select>
           </div>
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">Название</label>
-            <input type="text" name="name" id="name" className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required />
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700">Наименование мероприятия</label>
+            <select name="name" id="name" className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
+              {activityNames[selectedCategory]?.map(name => (
+                <option key={name} value={name}>{name}</option>
+              ))}
+            </select>
           </div>
           <div>
             <label htmlFor="date" className="block text-sm font-medium text-gray-700">Дата</label>
