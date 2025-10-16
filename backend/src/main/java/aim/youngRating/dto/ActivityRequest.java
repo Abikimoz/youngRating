@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 public class ActivityRequest {
     private String name;
+    private String description;
     private LocalDate date;
     private ActivityCategory category;
     private String documentUrl; // For now, we'll just pass the URL. File upload can be a future improvement.
@@ -18,6 +19,14 @@ public class ActivityRequest {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public LocalDate getDate() {

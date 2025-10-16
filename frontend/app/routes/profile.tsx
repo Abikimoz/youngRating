@@ -53,6 +53,7 @@ export default function Profile() {
     const formData = new FormData(event.target);
     const activityData = {
       name: formData.get("name"),
+      description: formData.get("description"),
       date: formData.get("date"),
       category: formData.get("category"),
     };
@@ -130,7 +131,7 @@ export default function Profile() {
                   <th className="py-2 px-4 border-b">№</th>
                   <th className="py-2 px-4 border-b">Направление</th>
                   <th className="py-2 px-4 border-b">Наименование мероприятия</th>
-                  <th className="py-2 px-4 border-b">Название</th>
+                  <th className="py-2 px-4 border-b">Описание</th>
                   <th className="py-2 px-4 border-b">Дата</th>
                   <th className="py-2 px-4 border-b">Баллы</th>
                   <th className="py-2 px-4 border-b">Статус</th>
@@ -142,7 +143,7 @@ export default function Profile() {
                     <td className="py-2 px-4 border-b">{index + 1}</td>
                     <td className="py-2 px-4 border-b">{categoryTranslations[activity.category] || activity.category}</td>
                     <td className="py-2 px-4 border-b">{activity.name}</td>
-                    <td className="py-2 px-4 border-b">{activity.name}</td>
+                    <td className="py-2 px-4 border-b">{activity.description}</td>
                     <td className="py-2 px-4 border-b">{new Date(activity.date).toLocaleDateString()}</td>
                     <td className="py-2 px-4 border-b">{activity.points}</td>
                     <td className="py-2 px-4 border-b">{statusTranslations[activity.status] || activity.status}</td>

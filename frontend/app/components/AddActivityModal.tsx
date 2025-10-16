@@ -27,7 +27,7 @@ const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onClose, on
 
   return (
     <div className="fixed inset-0 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center backdrop-blur-sm">
-      <div className="relative mx-auto p-5 border w-full max-w-lg shadow-lg rounded-md bg-white">
+      <div className="relative mx-auto p-5 border w-full max-w-3xl shadow-lg rounded-md bg-white">
         <h3 className="text-lg font-medium leading-6 text-gray-900">Добавить мероприятие</h3>
         <form onSubmit={onSubmit} className="mt-2 space-y-4">
           <div>
@@ -45,6 +45,10 @@ const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onClose, on
                 <option key={name} value={name}>{name}</option>
               ))}
             </select>
+          </div>
+          <div>
+            <label htmlFor="description" className="block text-sm font-medium text-gray-700">Описание</label>
+            <textarea name="description" id="description" rows={3} className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"></textarea>
           </div>
           <div>
             <label htmlFor="date" className="block text-sm font-medium text-gray-700">Дата</label>

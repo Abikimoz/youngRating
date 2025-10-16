@@ -30,6 +30,7 @@ public class RatingService {
     public Activity createActivity(ActivityRequest activityRequest, User user) {
         Activity activity = new Activity();
         activity.setName(activityRequest.getName());
+        activity.setDescription(activityRequest.getDescription());
         activity.setDate(activityRequest.getDate());
         activity.setCategory(activityRequest.getCategory());
         activity.setDocumentUrl(activityRequest.getDocumentUrl());
@@ -69,6 +70,7 @@ public class RatingService {
         return new ActivityDto(
                 activity.getId(),
                 activity.getName(),
+                activity.getDescription(),
                 activity.getDate(),
                 activity.getPoints(),
                 activity.getStatus(),

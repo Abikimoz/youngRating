@@ -8,6 +8,7 @@ import java.time.LocalDate;
 public class ActivityDto {
     private Long id;
     private String name;
+    private String description;
     private LocalDate date;
     private Integer points;
     private ActivityStatus status;
@@ -15,9 +16,10 @@ public class ActivityDto {
     private String documentUrl;
     private UserDto user;
 
-    public ActivityDto(Long id, String name, LocalDate date, Integer points, ActivityStatus status, ActivityCategory category, String documentUrl, UserDto user) {
+    public ActivityDto(Long id, String name, String description, LocalDate date, Integer points, ActivityStatus status, ActivityCategory category, String documentUrl, UserDto user) {
         this.id = id;
         this.name = name;
+        this.description = description;
         this.date = date;
         this.points = points;
         this.status = status;
@@ -42,6 +44,14 @@ public class ActivityDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public LocalDate getDate() {
