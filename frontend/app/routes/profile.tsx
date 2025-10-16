@@ -69,7 +69,7 @@ export default function Profile() {
   // Функция для рендера основной карточки страницы
   const renderCard = (title: string, content: React.ReactNode) => (
     <main className="w-full min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
-      <div className="w-full max-w-4xl mx-auto bg-white border-2 border-gray-200 rounded-3xl shadow-lg overflow-hidden p-6 sm:p-8 space-y-6">
+      <div className="w-full mx-auto bg-white border-2 border-gray-200 rounded-3xl shadow-lg overflow-hidden p-6 sm:p-8 space-y-6">
         <h2 className="text-center text-4xl font-bold text-gray-800">
           {title}
         </h2>
@@ -124,7 +124,7 @@ export default function Profile() {
         </div>
         {activities.length > 0 ? (
           <div className="overflow-x-auto">
-            <table className="min-w-full bg-white border border-gray-200">
+            <table className="w-full bg-white border border-gray-200">
               <thead>
                 <tr className="bg-gray-100">
                   <th className="py-2 px-4 border-b">№</th>
