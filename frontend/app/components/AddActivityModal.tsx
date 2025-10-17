@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { activityNames } from "../activities";
+import { getActivityNames } from "../api/auth";
 
 interface AddActivityModalProps {
   isOpen: boolean;
@@ -10,6 +10,7 @@ interface AddActivityModalProps {
 
 const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onClose, onSubmit, categoryTranslations }) => {
   const [selectedCategory, setSelectedCategory] = useState(Object.keys(categoryTranslations)[0]);
+  const [activityNames, setActivityNames] = useState({});
   // Состояние для хранения длины обрезки текста
   const [truncateLength, setTruncateLength] = useState(50);
   // Ref для доступа к элементу select
@@ -18,6 +19,15 @@ const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onClose, on
   useEffect(() => {
     if (isOpen) {
       setSelectedCategory(Object.keys(categoryTranslations)[0]);
+
+      const fetchActivityNames = async () => {
+        const result = await getActivityNames();
+        if (result.success) {
+          setActivityNames(result.activityNames);
+        }
+      };
+
+      fetchActivityNames();
 
       // Функция для вычисления длины обрезки на основе ширины элемента select
       const calculateTruncateLength = () => {

@@ -5,6 +5,7 @@ import aim.youngRating.dto.ActivityRequest;
 import aim.youngRating.dto.UserRatingDto;
 import aim.youngRating.model.Activity;
 import aim.youngRating.model.User;
+import aim.youngRating.model.enums.ActivityCategory;
 import aim.youngRating.model.enums.ActivityStatus;
 import aim.youngRating.service.RatingService;
 import aim.youngRating.service.UserService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -70,5 +72,10 @@ public class RatingController {
 
         Activity createdActivity = ratingService.createActivity(activityRequest, currentUser);
         return new ResponseEntity<>(ratingService.convertToDto(createdActivity), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/activity-names")
+    public ResponseEntity<Map<ActivityCategory, List<String>>> getActivityNames() {
+        return ResponseEntity.ok(ratingService.getActivityNames());
     }
 }

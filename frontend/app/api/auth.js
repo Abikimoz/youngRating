@@ -278,3 +278,27 @@ export async function rejectActivity(activityId) {
         return { success: false, error: 'Сетевая ошибка' };
     }
 }
+
+export async function getActivityNames() {
+    try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${API_BASE_URL}/rating/activity-names`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (response.ok) {
+            const activityNames = await response.json();
+            return { success: true, activityNames };
+        } else {
+            const errorMessage = await response.text();
+            return { success: false, error: errorMessage };
+        }
+    } catch (error) {
+        console.error('Ошибка при получении наименований мероприятий:', error);
+        return { success: false, error: 'Сетевая ошибка' };
+    }
+}
