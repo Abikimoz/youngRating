@@ -80,12 +80,34 @@ const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onClose, on
   };
 
   const getPointLabel = (point: number) => {
+    if (selectedActivityName === "Участие в активе СМС Общества в отчетный период") {
+      const pointMappings: { [key: number]: string } = {
+        25: "заместитель председателя СМС",
+        15: "куратор по направлениям деятельности СМС",
+        10: "ответственный за мониторинг/секретарь",
+      };
+      if (point in pointMappings) {
+        return `${point} (${pointMappings[point]})`;
+      }
+    }
+
+    if (selectedActivityName === "Оценка деятельности в активе СМС (осуществляется председателем СМС)") {
+      const pointMappings: { [key: number]: string } = {
+        100: "за высокий уровень активности (оценивается инициативность и исполнение задач)",
+        50: "за средний уровень активности (оценивается инициативность и исполнение задач)",
+      };
+      if (point in pointMappings) {
+        return `${point} (${pointMappings[point]})`;
+      }
+    }
+
     if (selectedActivityName.includes("Призовое место") && availablePoints.length === 3) {
       const sortedPoints = [...availablePoints].sort((a, b) => b - a);
       if (point === sortedPoints[0]) return `${point} (1 место)`;
       if (point === sortedPoints[1]) return `${point} (2 место)`;
       if (point === sortedPoints[2]) return `${point} (3 место)`;
     }
+
     return point.toString();
   };
 
