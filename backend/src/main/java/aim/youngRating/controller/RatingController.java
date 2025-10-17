@@ -1,5 +1,6 @@
 package aim.youngRating.controller;
 
+import aim.youngRating.dto.ActivityDetailsDto;
 import aim.youngRating.dto.ActivityDto;
 import aim.youngRating.dto.ActivityRequest;
 import aim.youngRating.dto.UserRatingDto;
@@ -74,8 +75,8 @@ public class RatingController {
         return new ResponseEntity<>(ratingService.convertToDto(createdActivity), HttpStatus.CREATED);
     }
 
-    @GetMapping("/activity-names")
-    public ResponseEntity<Map<ActivityCategory, List<String>>> getActivityNames() {
-        return ResponseEntity.ok(ratingService.getActivityNames());
+    @GetMapping("/activity-details")
+    public ResponseEntity<Map<ActivityCategory, List<ActivityDetailsDto>>> getActivityDetails() {
+        return ResponseEntity.ok(ratingService.getActivityDetails());
     }
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { getActivityNames } from "../api/auth";
+import { getActivityDetails } from "../api/auth";
 
 interface AddActivityModalProps {
   isOpen: boolean;
@@ -8,49 +8,50 @@ interface AddActivityModalProps {
   categoryTranslations: { [key: string]: string };
 }
 
+interface ActivityDetail {
+  name: string;
+  points: number[];
+}
+
 const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onClose, onSubmit, categoryTranslations }) => {
   const [selectedCategory, setSelectedCategory] = useState(Object.keys(categoryTranslations)[0]);
-  const [activityNames, setActivityNames] = useState({});
-  // Состояние для хранения длины обрезки текста
+  const [activityDetails, setActivityDetails] = useState<{ [key: string]: ActivityDetail[] }>({});
   const [truncateLength, setTruncateLength] = useState(50);
-  // Ref для доступа к элементу select
   const selectRef = useRef<HTMLSelectElement>(null);
+
+  const [selectedActivityName, setSelectedActivityName] = useState('');
+  const [availablePoints, setAvailablePoints] = useState<number[]>([]);
+  const [selectedPoints, setSelectedPoints] = useState<number | ''>('');
 
   useEffect(() => {
     if (isOpen) {
-      setSelectedCategory(Object.keys(categoryTranslations)[0]);
+      const firstCategory = Object.keys(categoryTranslations)[0];
+      setSelectedCategory(firstCategory);
+      setSelectedActivityName('');
+      setAvailablePoints([]);
+      setSelectedPoints('');
 
-      const fetchActivityNames = async () => {
-        const result = await getActivityNames();
+      const fetchActivityDetails = async () => {
+        const result = await getActivityDetails();
         if (result.success) {
-          setActivityNames(result.activityNames);
+          setActivityDetails(result.activityDetails);
         }
       };
 
-      fetchActivityNames();
+      fetchActivityDetails();
 
-      // Функция для вычисления длины обрезки на основе ширины элемента select
       const calculateTruncateLength = () => {
         if (selectRef.current) {
           const width = selectRef.current.offsetWidth;
-          // Предполагая среднюю ширину символа 8px для шрифта 16px, вычисляем, сколько символов поместится
-          // Вычитаем 5, чтобы добавить небольшой отступ
           const chars = Math.floor(width / 9) - 2;
           setTruncateLength(chars);
         }
       };
 
-      // Небольшая задержка, чтобы убедиться, что модальное окно отобразилось и имеет окончательную ширину
       const timeoutId = setTimeout(calculateTruncateLength, 100);
+      const handleResize = () => calculateTruncateLength();
+      window.addEventListener('resize', handleResize);
 
-      // Обработчик изменения размера окна
-      const handleResize = () => {
-        calculateTruncateLength();
-      };
-
-      window.addEventListener('resize', handleResize); // Добавляем слушатель события изменения размера окна
-
-      // Очистка слушателя и таймаута при размонтировании компонента или закрытии модального окна
       return () => {
         clearTimeout(timeoutId);
         window.removeEventListener('resize', handleResize);
@@ -64,9 +65,20 @@ const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onClose, on
 
   const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCategory(event.target.value);
+    setSelectedActivityName('');
+    setAvailablePoints([]);
+    setSelectedPoints('');
   };
 
-  // Функция для обрезки строки до n символов и добавления многоточия
+  const handleActivityNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const name = event.target.value;
+    setSelectedActivityName(name);
+    const activity = activityDetails[selectedCategory]?.find(act => act.name === name);
+    const points = activity ? activity.points : [];
+    setAvailablePoints(points);
+    setSelectedPoints(points.length > 0 ? points[0] : '');
+  };
+
   const truncate = (str: string, n: number) => {
     return (str.length > n) ? str.substr(0, n - 1) + '...' : str;
   };
@@ -86,11 +98,19 @@ const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onClose, on
           </div>
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">Наименование мероприятия</label>
-            {/* Ref используется для получения ширины элемента select */}
-            <select name="name" id="name" ref={selectRef} className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
-              {activityNames[selectedCategory]?.map(name => (
-                // Атрибут title показывает полный текст при наведении
-                <option key={name} value={name} title={name}>{truncate(name, truncateLength)}</option>
+            <select name="name" id="name" ref={selectRef} className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required onChange={handleActivityNameChange} value={selectedActivityName}>
+              <option value="" disabled>Выберите мероприятие</option>
+              {activityDetails[selectedCategory]?.map(activity => (
+                <option key={activity.name} value={activity.name} title={activity.name}>{truncate(activity.name, truncateLength)}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label htmlFor="points" className="block text-sm font-medium text-gray-700">Баллы</label>
+            <select name="points" id="points" className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required value={selectedPoints} onChange={(e) => setSelectedPoints(Number(e.target.value))} disabled={availablePoints.length === 0}>
+              {availablePoints.length === 0 && <option value="">--</option>}
+              {availablePoints.map(point => (
+                <option key={point} value={point}>{point}</option>
               ))}
             </select>
           </div>

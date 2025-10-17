@@ -279,10 +279,10 @@ export async function rejectActivity(activityId) {
     }
 }
 
-export async function getActivityNames() {
+export async function getActivityDetails() {
     try {
         const token = localStorage.getItem("token");
-        const response = await fetch(`${API_BASE_URL}/rating/activity-names`, {
+        const response = await fetch(`${API_BASE_URL}/rating/activity-details`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -291,14 +291,14 @@ export async function getActivityNames() {
         });
 
         if (response.ok) {
-            const activityNames = await response.json();
-            return { success: true, activityNames };
+            const activityDetails = await response.json();
+            return { success: true, activityDetails };
         } else {
             const errorMessage = await response.text();
             return { success: false, error: errorMessage };
         }
     } catch (error) {
-        console.error('Ошибка при получении наименований мероприятий:', error);
+        console.error('Ошибка при получении сведений о мероприятиях:', error);
         return { success: false, error: 'Сетевая ошибка' };
     }
 }
