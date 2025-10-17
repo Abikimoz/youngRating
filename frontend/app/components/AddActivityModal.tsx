@@ -79,6 +79,16 @@ const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onClose, on
     setSelectedPoints(points.length > 0 ? points[0] : '');
   };
 
+  const getPointLabel = (point: number) => {
+    if (selectedActivityName.includes("Призовое место") && availablePoints.length === 3) {
+      const sortedPoints = [...availablePoints].sort((a, b) => b - a);
+      if (point === sortedPoints[0]) return `${point} (1 место)`;
+      if (point === sortedPoints[1]) return `${point} (2 место)`;
+      if (point === sortedPoints[2]) return `${point} (3 место)`;
+    }
+    return point.toString();
+  };
+
   const truncate = (str: string, n: number) => {
     return (str.length > n) ? str.substr(0, n - 1) + '...' : str;
   };
@@ -110,7 +120,7 @@ const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onClose, on
             <select name="points" id="points" className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required value={selectedPoints} onChange={(e) => setSelectedPoints(Number(e.target.value))} disabled={availablePoints.length === 0}>
               {availablePoints.length === 0 && <option value="">--</option>}
               {availablePoints.map(point => (
-                <option key={point} value={point}>{point}</option>
+                <option key={point} value={point}>{getPointLabel(point)}</option>
               ))}
             </select>
           </div>
