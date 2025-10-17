@@ -1,3 +1,4 @@
+import type { MetaFunction } from "@react-router/node";
 import {
   isRouteErrorResponse,
   Links,
@@ -9,6 +10,12 @@ import {
 
 import "./app.css";
 import "./fonts.css";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Рейтинг молодых специалистов" },
+  ];
+};
 
 export const links = () => [];
 
