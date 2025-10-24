@@ -40,11 +40,31 @@ public class RatingController {
         List<User> users = userService.findUsersForRating();
         List<UserRatingDto> userRatingDtos = users.stream()
                 .map(user -> {
+                    // Для каждого пользователя получаем список его активностей
                     List<Activity> activities = ratingService.getActivitiesByUserId(user.getId());
-                    int score = activities.stream()
+
+                    // Получаем все подтвержденные активности
+                    List<Activity> approvedActivities = activities.stream()
                             .filter(activity -> activity.getStatus() == ActivityStatus.APPROVED)
+                            .collect(Collectors.toList());
+
+                    // Считаем баллы для категории SPORT с ограничением в 400
+                    int sportScore = approvedActivities.stream()
+                            .filter(activity -> activity.getCategory() == ActivityCategory.SPORT)
                             .mapToInt(Activity::getPoints)
                             .sum();
+                    if (sportScore > 400) {
+                        sportScore = 400;
+                    }
+
+                    // Считаем баллы для остальных категорий
+                    int otherScore = approvedActivities.stream()
+                            .filter(activity -> activity.getCategory() != ActivityCategory.SPORT)
+                            .mapToInt(Activity::getPoints)
+                            .sum();
+
+                    // Общий рейтинг - это сумма баллов по всем категориям
+                    int score = sportScore + otherScore;
                     return new UserRatingDto(user.getId(), user.getFullName(), score);
                 })
                 .sorted(Comparator.comparingInt(UserRatingDto::getScore).reversed())
