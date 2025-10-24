@@ -43,28 +43,22 @@ public class RatingController {
                     // Для каждого пользователя получаем список его активностей
                     List<Activity> activities = ratingService.getActivitiesByUserId(user.getId());
 
-                    // Получаем все подтвержденные активности
-                    List<Activity> approvedActivities = activities.stream()
+                    // Группируем подтвержденные активности по категориям и считаем сумму баллов для каждой
+                    Map<ActivityCategory, Integer> scoresByCategory = activities.stream()
                             .filter(activity -> activity.getStatus() == ActivityStatus.APPROVED)
-                            .collect(Collectors.toList());
+                            .collect(Collectors.groupingBy(
+                                    Activity::getCategory,
+                                    Collectors.summingInt(Activity::getPoints)
+                            ));
 
-                    // Считаем баллы для категории SPORT с ограничением в 400
-                    int sportScore = approvedActivities.stream()
-                            .filter(activity -> activity.getCategory() == ActivityCategory.SPORT)
-                            .mapToInt(Activity::getPoints)
-                            .sum();
-                    if (sportScore > 400) {
-                        sportScore = 400;
-                    }
+                    // Применяем ограничения для каждой категории
+                    int scientificScore = Math.min(scoresByCategory.getOrDefault(ActivityCategory.SCIENTIFIC, 0), 525);
+                    int socialScore = Math.min(scoresByCategory.getOrDefault(ActivityCategory.SOCIAL, 0), 350);
+                    int organizationalScore = Math.min(scoresByCategory.getOrDefault(ActivityCategory.ORGANIZATIONAL, 0), 125);
+                    int sportScore = Math.min(scoresByCategory.getOrDefault(ActivityCategory.SPORT, 0), 400);
 
-                    // Считаем баллы для остальных категорий
-                    int otherScore = approvedActivities.stream()
-                            .filter(activity -> activity.getCategory() != ActivityCategory.SPORT)
-                            .mapToInt(Activity::getPoints)
-                            .sum();
-
-                    // Общий рейтинг - это сумма баллов по всем категориям
-                    int score = sportScore + otherScore;
+                    // Общий рейтинг - это сумма баллов по всем категориям после применения ограничений
+                    int score = scientificScore + socialScore + organizationalScore + sportScore;
                     return new UserRatingDto(user.getId(), user.getFullName(), score);
                 })
                 .sorted(Comparator.comparingInt(UserRatingDto::getScore).reversed())
