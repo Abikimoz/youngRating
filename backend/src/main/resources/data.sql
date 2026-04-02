@@ -1,12 +1,39 @@
 INSERT INTO users (email, password, role, full_name, score) VALUES
-('admin@example.com', '$2a$10$8.A.n.a.r.c.h.y.S.o.m.e.t.h.i.n.g.1', 'ADMIN', 'Admin User', 150),
-('user1@example.com', '$2a$10$8.A.n.a.r.c.h.y.S.o.m.e.t.h.i.n.g.1', 'USER', 'User One', 120),
-('user2@example.com', '$2a$10$8.A.n.a.r.c.h.y.S.o.m.e.t.h.i.n.g.1', 'USER', 'User Two', 95),
-('user3@example.com', '$2a$10$8.A.n.a.r.c.h.y.S.o.m.e.t.h.i.n.g.1', 'USER', 'User Three', 200);
+('admin@admin.com', '$2a$10$sJ.e6gJUDIVQXQzIczeZouQh6Njp5bI2k6D1UjKADLTwEnRdazvtq', 'ADMIN', 'Admin User', 150),
+('test1@test.com', '$2a$10$nWZR8rxuMYe1NVZN0IWCZevKQJ9ZZzh9uI6e9qfxJoNpzqyeEHYsi', 'USER', 'User One', 120),
+('test2@test.com', '$2a$10$nWZR8rxuMYe1NVZN0IWCZevKQJ9ZZzh9uI6e9qfxJoNpzqyeEHYsi', 'USER', 'User Two', 95),
+('test3@test.com', '$2a$10$nWZR8rxuMYe1NVZN0IWCZevKQJ9ZZzh9uI6e9qfxJoNpzqyeEHYsi', 'USER', 'User Three', 200)
+ON CONFLICT (email) DO NOTHING;
 
-INSERT INTO activities (name, date, points, status, category, user_id) VALUES
-('Участие в конференции', '2024-10-10', 10, 'APPROVED', 'SCIENTIFIC', 2),
-('Победа в хакатоне', '2024-09-25', 50, 'APPROVED', 'SCIENTIFIC', 2),
-('Сдача норм ГТО', '2024-10-15', 20, 'PENDING', 'SPORT', 2),
-('Волонтерство', '2024-08-20', 15, 'REJECTED', 'SOCIAL', 3),
-('Организация митапа', '2024-10-05', 30, 'APPROVED', 'ORGANIZATIONAL', 4);
+-- Activities for test1@test.com
+INSERT INTO activities (name, date, points, status, category, user_id)
+SELECT 'Участие в конференции', '2024-10-10', 10, 'APPROVED', 'SCIENTIFIC', (SELECT id FROM users WHERE email = 'test1@test.com')
+WHERE NOT EXISTS (
+    SELECT 1 FROM activities WHERE name = 'Участие в конференции' AND user_id = (SELECT id FROM users WHERE email = 'test1@test.com')
+);
+
+INSERT INTO activities (name, date, points, status, category, user_id)
+SELECT 'Победа в хакатоне', '2024-09-25', 50, 'APPROVED', 'SCIENTIFIC', (SELECT id FROM users WHERE email = 'test1@test.com')
+WHERE NOT EXISTS (
+    SELECT 1 FROM activities WHERE name = 'Победа в хакатоне' AND user_id = (SELECT id FROM users WHERE email = 'test1@test.com')
+);
+
+INSERT INTO activities (name, date, points, status, category, user_id)
+SELECT 'Сдача норм ГТО', '2024-10-15', 20, 'PENDING', 'SPORT', (SELECT id FROM users WHERE email = 'test1@test.com')
+WHERE NOT EXISTS (
+    SELECT 1 FROM activities WHERE name = 'Сдача норм ГТО' AND user_id = (SELECT id FROM users WHERE email = 'test1@test.com')
+);
+
+-- Activity for test2@test.com
+INSERT INTO activities (name, date, points, status, category, user_id)
+SELECT 'Волонтерство', '2024-08-20', 15, 'REJECTED', 'SOCIAL', (SELECT id FROM users WHERE email = 'test2@test.com')
+WHERE NOT EXISTS (
+    SELECT 1 FROM activities WHERE name = 'Волонтерство' AND user_id = (SELECT id FROM users WHERE email = 'test2@test.com')
+);
+
+-- Activity for test3@test.com
+INSERT INTO activities (name, date, points, status, category, user_id)
+SELECT 'Организация митапа', '2024-10-05', 30, 'APPROVED', 'ORGANIZATIONAL', (SELECT id FROM users WHERE email = 'test3@test.com')
+WHERE NOT EXISTS (
+    SELECT 1 FROM activities WHERE name = 'Организация митапа' AND user_id = (SELECT id FROM users WHERE email = 'test3@test.com')
+);

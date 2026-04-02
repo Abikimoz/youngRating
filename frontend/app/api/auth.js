@@ -1,5 +1,7 @@
 // API для работы с аутентификацией и регистрацией
-const API_BASE_URL = 'http://localhost:8080/api'; // Базовый URL для backend API
+const API_BASE_URL = 'http://10.96.72.17:8080/api'; // Базовый URL для backend API
+// const API_BASE_URL = 'http://localhost:8080/api'; // Базовый URL для backend API с локального запроса из браузера
+// const API_BASE_URL = '/api'; // Базовый URL для backend API через шлюз
 
 // Функция для регистрации нового пользователя
 export async function register({ email, password, fullName, role = 'user' }) {

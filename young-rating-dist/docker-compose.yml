@@ -13,10 +13,7 @@ services:
       - "5432:5432"
 
   backend:
-    build:
-      context: ..  # Поднимаемся на уровень выше
-      dockerfile: docker/backend.Dockerfile  # Указываем относительный путь
-    image: young-rating-backend
+    image: young-rating-backend:latest
     depends_on:
       postgres:
         condition: service_healthy
@@ -28,14 +25,11 @@ services:
       - "8080:8080"
 
   frontend:
-    build:
-      context: ..  # Поднимаемся на уровень выше
-      dockerfile: docker/frontend.Dockerfile  # Указываем относительный путь
-    image: young-rating-frontend
+    image: young-rating-frontend:latest
     depends_on:
       - backend
     ports:
-      - "3000:3000"
+      - "3030:3000"
 
 volumes:
   postgres_data:

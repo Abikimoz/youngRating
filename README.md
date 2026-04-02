@@ -1,4 +1,9 @@
 # youngRating
+обновляем образы
+docker build -t cr.yandex/crp8589kacs9losb86el/backend:latest -f docker/backend.Dockerfile .
+docker push cr.yandex/crp8589kacs9losb86el/backend:latest
+docker build -t cr.yandex/crp8589kacs9losb86el/frontend:latest -f docker/frontend.Dockerfile .
+docker push cr.yandex/crp8589kacs9losb86el/frontend:latest
 
 собираем образ
 docker build -f docker/backend.Dockerfile -t my-backend .

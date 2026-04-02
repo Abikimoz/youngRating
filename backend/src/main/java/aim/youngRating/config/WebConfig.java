@@ -16,7 +16,7 @@ public class WebConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**") // Применяем CORS ко всем маршрутам
-                        .allowedOrigins("http://localhost:3000") // Разрешаем запросы с frontend
+                        .allowedOriginPatterns("http://localhost:3000", "http://localhost:3030", "https://d5dr7efq7f67tth60h5o.yl4tuxdu.apigw.yandexcloud.net", "http://10.*.*.*:*", "https://10.*.*.*:*")
                         .allowedMethods("*") // Разрешаем все HTTP-методы (GET, POST, PUT, DELETE, OPTIONS)
                         .allowCredentials(true); // Разрешаем передачу cookies и заголовков авторизации
             }
