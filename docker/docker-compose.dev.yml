@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   postgres:
     image: postgres:15-alpine
@@ -12,6 +11,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   backend:
+    image: young-rating-backend-dev
     build:
       context: ..
       dockerfile: docker/backend.Dockerfile
@@ -20,6 +20,7 @@ services:
     working_dir: /workspace
     volumes:
       - ../backend:/workspace
+      - gradle_cache:/home/appuser/.gradle
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/appdb
       SPRING_DATASOURCE_USERNAME: appuser
@@ -42,4 +43,5 @@ services:
       - backend
 
 volumes:
-  postgres_data: 
+  postgres_data:
+  gradle_cache:

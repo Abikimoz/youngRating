@@ -1,8 +1,8 @@
-INSERT INTO users (email, password, role, full_name, score) VALUES
-('admin@admin.com', '$2a$10$sJ.e6gJUDIVQXQzIczeZouQh6Njp5bI2k6D1UjKADLTwEnRdazvtq', 'ADMIN', 'Admin User', 150),
-('test1@test.com', '$2a$10$nWZR8rxuMYe1NVZN0IWCZevKQJ9ZZzh9uI6e9qfxJoNpzqyeEHYsi', 'USER', 'User One', 120),
-('test2@test.com', '$2a$10$nWZR8rxuMYe1NVZN0IWCZevKQJ9ZZzh9uI6e9qfxJoNpzqyeEHYsi', 'USER', 'User Two', 95),
-('test3@test.com', '$2a$10$nWZR8rxuMYe1NVZN0IWCZevKQJ9ZZzh9uI6e9qfxJoNpzqyeEHYsi', 'USER', 'User Three', 200)
+INSERT INTO users (email, password, role, full_name) VALUES
+('admin@admin.com', '$2a$10$sJ.e6gJUDIVQXQzIczeZouQh6Njp5bI2k6D1UjKADLTwEnRdazvtq', 'ADMIN', 'Admin User'),
+('test1@test.com', '$2a$10$nWZR8rxuMYe1NVZN0IWCZevKQJ9ZZzh9uI6e9qfxJoNpzqyeEHYsi', 'USER', 'User One'),
+('test2@test.com', '$2a$10$nWZR8rxuMYe1NVZN0IWCZevKQJ9ZZzh9uI6e9qfxJoNpzqyeEHYsi', 'USER', 'User Two'),
+('test3@test.com', '$2a$10$nWZR8rxuMYe1NVZN0IWCZevKQJ9ZZzh9uI6e9qfxJoNpzqyeEHYsi', 'USER', 'User Three')
 ON CONFLICT (email) DO NOTHING;
 
 -- Activities for test1@test.com

@@ -27,4 +27,4 @@ docker compose up --build
 docker compose -f docker/docker-compose.yml up
 
 Запуск dev build
-docker compose -f docker/docker-compose.dev.yml up
+docker compose -f docker/docker-compose.dev.yml up --build
